@@ -133,6 +133,8 @@ def generate_subnet_list(ip_class, local_address, lsb_value):
 
 
 def main(args):
+    if len(args) == 4:
+        sys.stdout = open(args[3], 'w')
     subnet_string = ""
     local_string = ""
 
@@ -218,13 +220,16 @@ def main(args):
     for subnet_info in subnet_list:
         print("Start of subnet: " + '.'.join(map(str, subnet_info[0:4])), end="   ")
         print("Broadcast address: " + '.'.join(map(str, subnet_info[-4:])))
+    if len(args) == 4: # Close file if the optional output file argument is passed
+        with sys.stdout as f:
+            f.close()
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 3:
+    if len(sys.argv) == 3 or len(sys.argv) == 4:
         main(sys.argv)
     else:
-        print("Usage: subnet-calculator [Subnet IP] [Local IP]")
+        print("Usage: subnet-calculator [Subnet IP] [Local IP] <Output File Path (Optional)>")
 
 # Resources
 """
