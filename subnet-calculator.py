@@ -88,7 +88,9 @@ def get_least_sig_bit_value(subnet_mask_address):
             binary = bin(octet)[2:]
             lsb = str(binary).rfind("1") + 1
             lsb = 8 - lsb
-            return 2 ** lsb
+            lsb = 2 ** lsb
+            return lsb
+    return 1
 
 
 def generate_subnet_list(ip_class, local_address, lsb_value):
@@ -220,7 +222,7 @@ def main(args):
     for subnet_info in subnet_list:
         print("Start of subnet: " + '.'.join(map(str, subnet_info[0:4])), end="   ")
         print("Broadcast address: " + '.'.join(map(str, subnet_info[-4:])))
-    if len(args) == 4: # Close file if the optional output file argument is passed
+    if len(args) == 4:  # Close file if the optional output file argument is passed
         with sys.stdout as f:
             f.close()
 
